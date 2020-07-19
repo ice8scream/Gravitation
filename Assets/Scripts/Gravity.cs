@@ -3,15 +3,13 @@
 public class Gravity
 {
     static public float G = 6.67f;
-    static public Vector3 GetAttractForce(Attractor attractor, Attractable objectToAttract, Vector3 attractorPosition, Vector3 attracteblePosition)
+    static public Vector3 GetAttractForce(SpaceBody attractor, SpaceBody objectToAttract, Vector3 attractorPosition, Vector3 attracteblePosition)
     {
-        Rigidbody rbAtractor = attractor.rigB;
-        Rigidbody rbToAttract = objectToAttract.rigB;
-        float speed = objectToAttract.AttractableSpeed;
+        float speed = objectToAttract.attractionSpeed;
 
         Vector3 deltaVector = attractorPosition - attracteblePosition;
         float distance = deltaVector.magnitude;
-        float forceMagnitude = G * rbAtractor.mass * rbToAttract.mass * speed / Mathf.Pow(distance, 2);
+        float forceMagnitude = G * attractor.mass * objectToAttract.mass * speed / Mathf.Pow(distance, 2);
         return forceMagnitude * deltaVector.normalized;
     }
 }

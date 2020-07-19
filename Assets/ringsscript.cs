@@ -22,7 +22,7 @@ public class ringsscript : MonoBehaviour
                     {
                         GameObject spawnedPlanet = Instantiate(planet, transform.position + (new Vector3(i, k, j) * distance
                             ), Quaternion.identity);
-                        spawnedPlanet.GetComponent<Satellite>().Owner = gameObject.GetComponent<Attractor>();
+                        spawnedPlanet.GetComponent<Satellite>().Owner = gameObject.GetComponent<SpaceBody>();
                     }
                // }
             }

@@ -7,13 +7,23 @@ using UnityEngine;
 public class SpaceBody : MonoBehaviour
 {
     Rigidbody rigB;
-    float mass {
-        get { return rigB.mass; }
-        set { rigB.mass = value; }
+
+    public Rigidbody GetRigB {
+        get { return rigB; }
     }
 
-    Vector3 velocity {
+    public float mass {
+        get { return rigB.mass; }
+    }
+
+    public Vector3 position
+    {
+        get { return transform.position; }
+    }
+
+    public Vector3 velocity {
         get { return rigB.velocity; }
+        set { rigB.velocity = value; }
     }
 
     public float attractionSpeed;
@@ -22,14 +32,19 @@ public class SpaceBody : MonoBehaviour
 
     bool isForecastTracked;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         rigB = GetComponent<Rigidbody>();
         if (isForecastTracked)
         {
             forecast.Init(this);
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
 
     }
 

@@ -7,7 +7,6 @@ public class VangaScript : MonoBehaviour
     // Start is called before the first frame update
     Dictionary<Attractable, Vector3[]> futureAttractablePosition = new Dictionary<Attractable, Vector3[]>();
     List<Attractor> Attractors = new List<Attractor>();
-    float G = 6.67E-11F;
 
     public int FutureBufferSize = 10000000;
     int currentTime = 0;
@@ -81,7 +80,7 @@ public class VangaScript : MonoBehaviour
                     if (attractable.Key.gameObject != attractor.gameObject)
                     {
                         //print(GetAttractForce(attractor, attractable.Key, CurrentAttractorPosition, attractable.Value[lastTime]));
-                        attractable.Value[nextTime] += GetAttractForce(attractor, attractable.Key, CurrentAttractorPosition, attractable.Value[lastTime]);
+                        //attractable.Value[nextTime] += Gravity.GetAttractForce(attractor, attractable.Key, CurrentAttractorPosition, attractable.Value[lastTime]);
                        
                     }
                 }
@@ -94,7 +93,7 @@ public class VangaScript : MonoBehaviour
                 Vector3 position;
                 if (lastTime == currentTime)
                 {
-                    velocity = attractable.Key.rigB.velocity;
+                    //velocity = attractable.Key.rigB.velocity;
                     position = attractable.Key.transform.position;
                 }
                 else
@@ -104,8 +103,8 @@ public class VangaScript : MonoBehaviour
                     position = attractable.Value[lastTime];
                 }
 
-                attractable.Value[nextTime] += -position + velocity;
-                print(velocity);
+                //attractable.Value[nextTime] += -position + velocity;
+                //print(velocity);
             }
 
             
@@ -113,18 +112,6 @@ public class VangaScript : MonoBehaviour
             range--;
             lastTime = nextTime;
         }
-    }
-
-    Vector3 GetAttractForce(Attractor attractor, Attractable objectToAttract, Vector3 attractorPosition, Vector3 attracteblePosition)
-    {
-        Rigidbody rbAtractor = attractor.rigB;
-        Rigidbody rbToAttract = objectToAttract.rigB;
-        float speed = objectToAttract.AttractableSpeed;
-
-        Vector3 deltaVector = attractorPosition - attracteblePosition;
-        float distance = deltaVector.magnitude;
-        float forceMagnitude = G * rbAtractor.mass * rbToAttract.mass * speed / Mathf.Pow(distance, 2);
-        return forceMagnitude * deltaVector.normalized;
     }
 
     private void FixedUpdate()

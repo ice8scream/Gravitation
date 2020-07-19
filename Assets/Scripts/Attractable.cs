@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpaceBody))]
 public class Attractable : MonoBehaviour
 {
-    public static List<Attractable> Attractebles;
-    public Rigidbody rigB;
-    public float AttractableSpeed;
-
+    public static List<SpaceBody> attractebles;
+    SpaceBody owner;
     private void OnEnable()
     {
-        if (Attractebles == null)
+        owner = GetComponent<SpaceBody>();
+        if (attractebles == null)
         {
-            Attractebles = new List<Attractable>();
+            attractebles = new List<SpaceBody>();
         }
-        Attractebles.Add(this);
+        attractebles.Add(owner);
     }
 
     private void OnDisable()
     {
-        Attractebles.Remove(this);
+        attractebles.Remove(owner);
     }
 
     // Start is called before the first frame update

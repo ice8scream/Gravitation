@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BalansedSystem : MonoBehaviour
 {
-    public Attractor Star;
+    public SpaceBody Star;
     public PlanetOptions[] planetOptions;
     public float Margin = 1;
     public float DistanceUnit = 1;
@@ -21,7 +21,7 @@ public class BalansedSystem : MonoBehaviour
             createdPlanet.gameObject.transform.localScale = Vector3.one * option.PlanetScale;
             createdPlanet.GetComponent<Rigidbody>().mass = option.PlanetMass;
             createdPlanet.gameObject.GetComponent<Satellite>().Owner = Star;
-            createdPlanet.gameObject.GetComponent<Attractable>().AttractableSpeed = option.AttractableSpeed;
+            createdPlanet.gameObject.GetComponent<SpaceBody>().attractionSpeed = option.AttractableSpeed;
             print("CreatePlanet");
         }
     }

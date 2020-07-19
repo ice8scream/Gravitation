@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StrafeOrbit))]
+[RequireComponent(typeof(SpaceBody))]
 public class Satellite : MonoBehaviour
 {
-    public Attractor Owner;
+    public SpaceBody Owner;
     StrafeOrbit orbit;
-    Attractable satellite;
+    SpaceBody satellite;
     public float ApogVisPerig;
-    float G = 6.67f;
 
     private void OnEnable()
     {
-        satellite = GetComponent<Attractable>();
+        satellite = GetComponent<SpaceBody>();
         //orbit = GetComponent<StrafeOrbit>();
     }
 
@@ -21,7 +21,7 @@ public class Satellite : MonoBehaviour
     void Start()
     {
         orbit = GetComponent<StrafeOrbit>();
-        print("Satellite Start");
+        //print("Satellite Start");
         AddOrbitalSatelliteVelocity();
     }
 
@@ -34,17 +34,19 @@ public class Satellite : MonoBehaviour
 
     void AddOrbitalSatelliteVelocity()
     {
-        Vector3 dir = SatelliteMovenmentDirection(Owner.rigB.position);
+        Vector3 dir = SatelliteMovenmentDirection(Owner.position);
 
-        float r = (Owner.rigB.position - satellite.rigB.position).magnitude;
+        float r = (Owner.position - satellite.position).magnitude;
         float a = r * (1 + ApogVisPerig) / 2;
 
-        float M = Owner.rigB.mass;
-        Vector3 v = dir * Mathf.Sqrt(G * M * satellite.AttractableSpeed * (2 / r - 1 / a));
-        satellite.rigB.velocity = v;
+        float M = Owner.mass;
+        Vector3 v = dir * Mathf.Sqrt(Gravity.G * M * satellite.attractionSpeed * (2 / r - 1 / a));
+        
 
-        //orbit.segments = 200;
-        //orbit.delay = 0;
+        satellite.velocity = v;
+
+        orbit.segments = 1000;
+        orbit.delay = 50;
         orbit.Perig = r;
         orbit.Apog = r * ApogVisPerig;
         orbit.planetPos = transform.position;
@@ -61,6 +63,7 @@ public class Satellite : MonoBehaviour
     Vector3 SatelliteMovenmentDirection(Vector3 ownerPosition)
     {
         Vector3 deltaVector = ownerPosition - transform.position;
+        
         Vector3 dir = Vector3.Cross(Vector3.up, deltaVector);
         if (dir.magnitude == 0)
         {
